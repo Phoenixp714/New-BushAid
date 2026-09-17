@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BushAid — The Gut-Skin Discovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Tokens ── */
+  :root {
+    --ink:    #1A1A2E;
+    --cream:  #F7F3EE;
+    --sage:   #7A9E87;
+    --blush:  #EFE4D8;
+    --gold:   #B8860B;
+    --muted:  #6B6B7A;
+    --col:    640px;
+    --gap:    clamp(3rem, 6vw, 5rem);
+  }
+
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  img  { display: block; max-width: 100%; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Utility ── */
+  .col {
+    width: min(var(--col), 100% - 2.5rem);
+    margin-inline: auto;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--ink);
+    padding: clamp(4rem, 10vw, 7rem) 0 clamp(3.5rem, 8vw, 6rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, #2E2A4A 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--sage);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.12;
+    color: #F7F3EE;
+    margin-bottom: 1.6rem;
+    max-width: 580px;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: #D4A843;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: #B0ACCA;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 2.4rem;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 340px;
+  }
+
+  .btn-primary {
+    display: block;
+    background: var(--sage);
+    color: #fff;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.97rem;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: background 0.18s;
+  }
+  .btn-primary:hover { background: #689977; }
+
+  .btn-secondary {
+    display: block;
+    background: transparent;
+    color: #B0ACCA;
+    text-align: center;
+    padding: 0.9rem 1.5rem;
+    border-radius: 4px;
+    border: 1px solid #3A3A5A;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.93rem;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: border-color 0.18s, color 0.18s;
+  }
+  .btn-secondary:hover { border-color: #7A9E87; color: #d0cde8; }
+
+  .hero-trust {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    color: #6A6680;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .hero-trust span { display: flex; align-items: center; gap: 0.35rem; }
+  .hero-trust svg { flex-shrink: 0; }
+
+  /* ── Fade-in (hero only) ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-inner { animation: fadeUp 0.65s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+
+  /* ── Authority bar ── */
+  .authority {
+    background: var(--blush);
+    padding: 1.4rem 0;
+    border-top: 1px solid #DDD5C8;
+    border-bottom: 1px solid #DDD5C8;
+  }
+
+  .authority-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .authority-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .authority-logos {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .authority-logos span {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.85rem;
+    color: #8A7F72;
+    white-space: nowrap;
+  }
+
+  /* ── Story sections ── */
+  .section {
+    padding: var(--gap) 0;
+  }
+
+  .section + .section {
+    border-top: 1px solid #E4DCCF;
+  }
+
+  /* ── Identification opener ── */
+  .opener-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.45rem, 3.5vw, 1.9rem);
+    line-height: 1.38;
+    color: var(--ink);
+    margin-bottom: 1.6rem;
+  }
+
+  .opener-text em {
+    font-style: italic;
+    color: var(--sage);
+  }
+
+  .body-text {
+    font-size: 1rem;
+    color: #3A3845;
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+  }
+
+  .body-text strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ── Pull quote ── */
+  .pull-quote {
+    border-left: 3px solid var(--sage);
+    margin: 2.2rem 0;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+  }
+
+  .pull-quote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* ── Year callout ── */
+  .year-section {
+    background: var(--ink);
+    padding: clamp(3rem, 7vw, 5rem) 0;
+    text-align: center;
+  }
+
+  .year-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(5rem, 18vw, 10rem);
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 1px #B8860B;
+    text-stroke: 1px #B8860B;
+    display: block;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.03em;
+  }
+
+  .year-caption {
+    font-size: 1.05rem;
+    color: #B0ACCA;
+    max-width: 520px;
+    margin-inline: auto;
+    line-height: 1.7;
+  }
+
+  .year-caption strong {
+    color: #D4A843;
+    font-weight: 500;
+  }
+
+  /* ── Discovery narrative ── */
+  .discovery-section {
+    background: var(--cream);
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1rem;
+  }
+
+  .section-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.5rem, 3.8vw, 2.1rem);
+    line-height: 1.28;
+    margin-bottom: 1.6rem;
+    color: var(--ink);
+  }
+
+  /* ── Failure list ── */
+  .failure-list {
+    background: var(--blush);
+    border-radius: 6px;
+    padding: 1.6rem 1.8rem;
+    margin: 1.8rem 0;
+  }
+
+  .failure-list-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .failure-list ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .failure-list li {
+    font-size: 0.95rem;
+    color: #4A4755;
+    padding-left: 1.4rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .failure-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sage);
+  }
+
+  /* ── Doctors callout ── */
+  .doctors-card {
+    background: var(--ink);
+    border-radius: 6px;
+    padding: 2rem 1.8rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .doctors-card::before {
+    content: '"';
+    font-family: 'DM Serif Display', serif;
+    font-size: 8rem;
+    color: #2E2A4A;
+    position: absolute;
+    top: -1rem;
+    right: 1rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .doctors-card-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 0.9rem;
+  }
+
+  .doctors-card-quote {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+    font-style: italic;
+    color: #E8E4F0;
+    line-height: 1.55;
+    margin-bottom: 1.1rem;
+  }
+
+  .doctors-card-attr {
+    font-size: 0.82rem;
+    color: #7A7690;
+    font-style: normal;
+  }
+
+  /* ── Transition bridge ── */
+  .bridge-section {
+    background: var(--blush);
+    padding: clamp(2.5rem, 6vw, 4rem) 0;
+  }
+
+  .bridge-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.4rem, 3.5vw, 1.85rem);
+    line-height: 1.32;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+  }
+
+  .bridge-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 520px) {
+    .hero-cta-group { max-width: 100%; }
+    .doctors-card::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="col hero-inner">
+    <p class="hero-eyebrow">A discovery dermatologists ignored for 80 years</p>
+
+    <h1 class="hero-headline">
+      Your skin problem might not be<br>
+      <em>a skin problem.</em>
+    </h1>
+
+    <p class="hero-sub">
+      In 1930, two doctors proposed that the gut and the skin are directly connected. Their idea was forgotten for nearly a century. Today, researchers call it the gut-skin axis — and it may explain why nothing you've tried has worked.
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="#offer" class="btn-primary">Try BushAid — 60-Day Supply</a>
+      <a href="#discovery" class="btn-secondary">Read the discovery first</a>
+    </div>
+
+    <div class="hero-trust">
+      <span>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="#7A9E87" stroke-width="1.2"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#7A9E87" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Lab tested
+      </span>
+      <span>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="#7A9E87" stroke-width="1.2"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#7A9E87" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        No subscription required
+      </span>
+      <span>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="#7A9E87" stroke-width="1.2"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#7A9E87" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        30-day money-back guarantee
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     AUTHORITY BAR
+════════════════════════════════════════════ -->
+<section class="authority">
+  <div class="col authority-inner">
+    <p class="authority-label">Ingredient research published in</p>
+    <div class="authority-logos">
+      <span>PubMed / PMC</span>
+      <span>·</span>
+      <span>Stanford Medicine</span>
+      <span>·</span>
+      <span>Cochrane Reviews</span>
+      <span>·</span>
+      <span>Gut Microbes Journal</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     IDENTIFICATION / OPENER
+════════════════════════════════════════════ -->
+<section class="section" id="discovery">
+  <div class="col">
+    <p class="opener-text">
+      You eat well. You've tried a probiotic.<br>
+      <em>So why are you still bloated — and still breaking out?</em>
+    </p>
+
+    <p class="body-text">
+      Maybe you've been on this loop for months. You do the right things — you eat carefully, you read the labels, you spent real money on a probiotic that everyone said worked. And for a week or two, maybe something shifted. Then it faded. Or nothing happened at all.
+    </p>
+
+    <p class="body-text">
+      Your skin still isn't cooperating. Your gut still bloats at meals you know you should be able to eat. You still catch whatever's going around.
+    </p>
+
+    <p class="body-text">
+      And the quiet conclusion you've started to reach — the one nobody wants to say out loud — is that <strong>maybe it's just you.</strong>
+    </p>
+
+    <div class="pull-quote">
+      <p>It isn't you. But it might be what every probiotic you've tried was designed to ignore.</p>
+    </div>
+
+    <p class="body-text">
+      There's a reason your gut, your skin, and how often you get run down all seem to flare at the same time. There's a reason a digestion-only probiotic never reached your skin. And there's a reason this explanation was available to dermatologists nearly 100 years ago — and most of the supplement industry still hasn't caught up.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     1930 YEAR CALLOUT
+════════════════════════════════════════════ -->
+<section class="year-section">
+  <div class="col">
+    <span class="year-number">1930</span>
+    <p class="year-caption">
+      The year two dermatologists first proposed that your gut and your skin are directly connected — and recommended <strong>Lactobacillus acidophilus cultures</strong> as part of the answer. Their paper was largely forgotten for the next 80 years.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     THE DISCOVERY STORY
+════════════════════════════════════════════ -->
+<section class="section discovery-section">
+  <div class="col">
+    <p class="section-label">The discovery</p>
+    <h2 class="section-headline">The gut-skin theory that dermatologists ignored for nearly a century</h2>
+
+    <p class="body-text">
+      In 1930, two dermatologists working at a time when medicine was just beginning to understand the gut, published a paper with an idea that was decades ahead of its moment. Dr. John Stokes and Dr. Donald Pillsbury proposed something that would seem obvious today: that what happens inside your gut can directly drive what shows up on your skin.
+    </p>
+
+    <p class="body-text">
+      They believed that emotional stress changed gut bacteria, increased what we now call intestinal permeability, and triggered the kind of systemic inflammation that shows up as breakouts, redness, and irritation on the skin. Their recommended remedy included <strong>Lactobacillus acidophilus cultures</strong> — the same strain now in BushAid.
+    </p>
+
+    <div class="doctors-card">
+      <p class="doctors-card-label">Stokes & Pillsbury, 1930</p>
+      <p class="doctors-card-quote">
+        The gut and the skin are connected through a system of shared inflammation — and when one is out of balance, the other will show it.
+      </p>
+      <p class="doctors-card-attr">Paraphrased from the original 1930 clinical paper, later reviewed in Gut Pathogens (Bowe & Logan, 2011)</p>
+    </div>
+
+    <p class="body-text">
+      The paper was largely ignored. For the next 80 years, dermatology and gut health were treated as two completely separate fields. Probiotics, when they finally became mainstream, were built almost entirely around digestion — bloating relief, regularity, bowel comfort. The skin was never part of the formula.
+    </p>
+
+    <p class="body-text">
+      Then, in 2011, researchers Bowe and Logan published a review in Gut Pathogens that revived Stokes and Pillsbury's work. They found that many aspects of the original theory had been quietly validated by modern research — gut bacteria influencing systemic inflammation, oxidative stress, and the skin's behavior. Today, researchers call this the <strong>gut-skin axis.</strong>
+    </p>
+
+    <p class="body-text">
+      It took 80 years to get back to an idea that two doctors had in 1930. And most probiotics on shelves today still haven't made the trip.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     WHY YOUR LAST PROBIOTIC DIDN'T WORK
+════════════════════════════════════════════ -->
+<section class="section" style="background: var(--cream);">
+  <div class="col">
+    <p class="section-label">The real reason</p>
+    <h2 class="section-headline">Why your last probiotic probably never reached your skin</h2>
+
+    <p class="body-text">
+      Most probiotics were designed with one job: digestion. Bloating, regularity, gut comfort. That's it. And for that narrow job, many of them work reasonably well — for a while.
+    </p>
+
+    <p class="body-text">
+      But here's what they almost never tell you: the bacteria in a typical probiotic behave more like houseguests than residents. They help while they're around. When you stop taking the capsule, or when the routine breaks, they leave. That's why so many people feel better for a week or two and then drift back to where they started.
+    </p>
+
+    <div class="failure-list">
+      <p class="failure-list-title">If any of these sound familiar, this is probably why:</p>
+      <ul>
+        <li>"I took it for a month and felt nothing."</li>
+        <li>"It worked for the first week, then stopped."</li>
+        <li>"My digestion improved but my skin stayed exactly the same."</li>
+        <li>"I've tried two different brands and I still bloat at every meal."</li>
+        <li>"My doctor said it probably wouldn't do much — and they were right."</li>
+      </ul>
+    </div>
+
+    <p class="body-text">
+      None of these are your fault. They're what happens when a digestion-only formula meets a problem that runs across three systems at once: your gut, your skin, and your immune response. Treating one side of that connection and leaving the other two untouched isn't a failure of probiotics. It's a failure of how most probiotics are designed.
+    </p>
+
+    <p class="body-text">
+      There's also something else most formulas leave out entirely. Research has found that people with frequent breakouts tend to have lower zinc levels. And the vast majority of probiotics — including the premium ones — contain no zinc at all. Your gut-skin connection has a missing piece, and it isn't a higher CFU count.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     BRIDGE TO SOLUTION
+════════════════════════════════════════════ -->
+<section class="bridge-section">
+  <div class="col">
+    <h2 class="bridge-headline">
+      What if one daily capsule was designed to support your gut, your skin, <em>and</em> your immune system — at the same time?
+    </h2>
+    <p class="body-text">
+      That's the question BushAid was built to answer. Not a bigger CFU number. Not more strains. A formula that finally takes the gut-skin axis seriously — the way Stokes and Pillsbury said someone should, nearly a century ago.
+    </p>
+    <p class="body-text" style="color: var(--muted); font-size: 0.92rem;">
+      The second half of this page covers exactly what's in BushAid, what the research says about each ingredient, what to expect in your first 60 days, and how the offer works. No subscription required, no fine print.
+    </p>
+  </div>
+</section>
+
+</body>
+</html>
