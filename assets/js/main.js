@@ -13,7 +13,7 @@
     store: 'https://c0qvns-0y.myshopify.com',
     product: '/products/bushaid-gut-skin-axis-support-capsules',
     VARIANT_ID: '43851217403971',
-    BUNDLE_CODES: { 2: '', 3: '' },
+    BUNDLE_CODES: { 2: 'BUNDLE2', 3: 'BUNDLE3' },
   };
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

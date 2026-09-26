@@ -172,6 +172,26 @@ function roomEnvironment() {
   return scene;
 }
 
+// Speckled powder seen through a clear capsule shell
+function powderTexture() {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 128;
+  const g = c.getContext('2d');
+  g.fillStyle = '#A88C62';
+  g.fillRect(0, 0, c.width, c.height);
+  const specks = ['#86704E', '#C4AE88', '#735E40', '#D2BF9C', '#9A8058'];
+  for (let i = 0; i < 2600; i++) {
+    g.fillStyle = specks[i % specks.length];
+    g.globalAlpha = 0.35 + Math.random() * 0.5;
+    const r = Math.random() < 0.9 ? 0.8 : 1.6;
+    g.fillRect(Math.random() * c.width, Math.random() * c.height, r, r);
+  }
+  g.globalAlpha = 1;
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 // ---------- Geometry helpers ----------
 function knurl(geo, rMin, yMin, yMax, ridges, depth) {
   const p = geo.attributes.position;
@@ -248,18 +268,10 @@ function buildBottle(labelCanvas, maxAniso) {
   group.add(cap);
 
   // Capsules for the finale: hidden inside the cap until the cap lifts off.
-  // Two-tone: cream shell with a warm gold half.
+  // Clear veggie capsules filled with speckled tan powder, like the real ones.
   const capsuleGeo = new THREE.CapsuleGeometry(0.13, 0.34, 8, 20);
-  const colors = [];
-  const pos = capsuleGeo.attributes.position;
-  const cream = new THREE.Color(0xf1e9da), gold = new THREE.Color(0xc9a45c);
-  for (let i = 0; i < pos.count; i++) {
-    const c = pos.getY(i) > 0 ? cream : gold;
-    colors.push(c.r, c.g, c.b);
-  }
-  capsuleGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
   const capsuleMat = new THREE.MeshPhysicalMaterial({
-    vertexColors: true, roughness: 0.3, clearcoat: 0.8, clearcoatRoughness: 0.15,
+    map: powderTexture(), roughness: 0.55, clearcoat: 1, clearcoatRoughness: 0.08, sheen: 0.2, sheenColor: 0xf3e2c0,
   });
   const capsuleEnds = [
     [-1.35, 3.55, 0.5], [-0.75, 4.15, 0.7], [0.0, 4.45, 0.85],
