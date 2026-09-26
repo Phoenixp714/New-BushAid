@@ -164,66 +164,88 @@ src="https://www.facebook.com/tr?id=933465302711700&ev=PageView&noscript=1"
       </div>
       <div class="split-media axis-media">
         <figure class="axis" data-axis>
-          <svg class="axis-svg" viewBox="0 0 400 500" role="img" aria-labelledby="axis-svg-title">
-            <title id="axis-svg-title">Diagram: a pathway runs from the gut up to the layers of the skin</title>
+          <svg class="axis-svg" viewBox="0 0 360 560" role="img" aria-labelledby="axis-svg-title">
+            <title id="axis-svg-title">Diagram: a glowing pathway rises from the gut to the layers of the skin</title>
             <defs>
-              <clipPath id="skin-clip"><rect x="150" y="48" width="230" height="132" rx="14"/></clipPath>
-              <filter id="axis-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+              <clipPath id="skin-clip"><rect x="24" y="44" width="312" height="150" rx="18"/></clipPath>
+              <linearGradient id="ax-epi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E2D2"/><stop offset="1" stop-color="#E6BBA2"/></linearGradient>
+              <linearGradient id="ax-derm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D89A86"/><stop offset=".7" stop-color="#A9665F"/><stop offset="1" stop-color="#7E4A4C"/></linearGradient>
+              <linearGradient id="ax-tube" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E39A86"/><stop offset="1" stop-color="#A85B56"/></linearGradient>
+              <linearGradient id="ax-line" gradientUnits="userSpaceOnUse" x1="0" y1="400" x2="0" y2="140"><stop offset="0" stop-color="#E6C98E"/><stop offset=".55" stop-color="#F2B77E"/><stop offset="1" stop-color="#F0806A"/></linearGradient>
+              <radialGradient id="ax-flare"><stop offset="0" stop-color="#FF5A48" stop-opacity=".9"/><stop offset=".6" stop-color="#FF5A48" stop-opacity=".25"/><stop offset="1" stop-color="#FF5A48" stop-opacity="0"/></radialGradient>
+              <radialGradient id="ax-bg" cx=".5" cy=".55" r=".6"><stop offset="0" stop-color="#2B3068" stop-opacity=".75"/><stop offset="1" stop-color="#12152E" stop-opacity="0"/></radialGradient>
+              <radialGradient id="ax-dot"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+              <filter id="ax-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
             </defs>
+            <rect width="360" height="560" fill="url(#ax-bg)"/>
 
-            <!-- Skin cross-section -->
+            <!-- Skin: epidermis, dermis with collagen and a capillary, fat layer, follicles -->
             <g class="axis-skin">
-              <text class="axis-tag" x="265" y="34" text-anchor="middle">SKIN</text>
+              <text class="axis-tag" x="24" y="32">SKIN</text>
               <g clip-path="url(#skin-clip)">
-                <rect x="150" y="48" width="230" height="132" fill="#2A2440"/>
-                <rect x="150" y="146" width="230" height="34" fill="#E9D6A6" fill-opacity=".22"/>
-                <g fill="#E9D6A6" fill-opacity=".35">
-                  <circle cx="168" cy="162" r="9"/><circle cx="190" cy="168" r="8"/><circle cx="214" cy="160" r="10"/><circle cx="240" cy="169" r="9"/><circle cx="265" cy="161" r="8"/><circle cx="289" cy="168" r="10"/><circle cx="315" cy="160" r="9"/><circle cx="340" cy="167" r="8"/><circle cx="364" cy="161" r="10"/>
+                <rect x="24" y="44" width="312" height="150" fill="url(#ax-derm)"/>
+                <g fill="#F4E4C1" fill-opacity=".22">
+                  <circle cx="40" cy="186" r="12"/><circle cx="68" cy="190" r="11"/><circle cx="96" cy="184" r="13"/><circle cx="126" cy="191" r="11"/><circle cx="154" cy="185" r="12"/><circle cx="184" cy="191" r="13"/><circle cx="214" cy="185" r="11"/><circle cx="242" cy="190" r="12"/><circle cx="270" cy="184" r="13"/><circle cx="300" cy="191" r="11"/><circle cx="326" cy="185" r="12"/>
                 </g>
-                <rect x="150" y="96" width="230" height="50" fill="#D9A48F" fill-opacity=".55"/>
-                <path d="M160 128c14-8 22 8 36 0s22 8 36 0 22 8 36 0 22 8 36 0 22 8 36 0 22 8 36 0" fill="none" stroke="#C0564B" stroke-opacity=".7" stroke-width="2"/>
-                <path d="M150 74c22-10 40 6 62-4s40 6 62-4 40 6 62-4 30 4 44-2V98H150z" fill="#EBC7AF"/>
-                <path d="M205 70v58M300 64v62" stroke="#7A5345" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M205 70q-6-18 4-30M300 64q8-16-2-28" fill="none" stroke="#7A5345" stroke-width="1.6" stroke-linecap="round"/>
+                <g fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="1.2">
+                  <path d="M24 124c36-8 66 8 102 0s66-8 102 0 72 8 108-2"/>
+                  <path d="M24 140c36 8 66-8 102 0s66 8 102 0 72-8 108 2"/>
+                </g>
+                <path d="M24 158c46-12 86 12 136 0s90-12 176 4" fill="none" stroke="#E4574B" stroke-opacity=".6" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M108 84c-2 30 3 60-3 88M262 80c3 30-2 62 4 90" fill="none" stroke="#6B4336" stroke-width="2.4" stroke-linecap="round"/>
+                <circle cx="105" cy="173" r="5" fill="#6B4336"/><circle cx="266" cy="171" r="5" fill="#6B4336"/>
+                <path d="M24 80c38-12 74 8 114-2s76-10 114 0 60 8 84-2v30c-36 6-74-6-110 0s-76 8-114 0-60-6-88 2z" fill="url(#ax-epi)"/>
+                <path d="M24 80c38-12 74 8 114-2s76-10 114 0 60 8 84-2" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.5"/>
+                <path d="M108 84c-6-18 0-32 10-42M262 80c6-18 0-30-8-40" fill="none" stroke="#4A2E25" stroke-width="1.6" stroke-linecap="round"/>
+                <g class="axis-flare">
+                  <circle cx="180" cy="82" r="20" fill="url(#ax-flare)"/>
+                  <circle cx="214" cy="78" r="13" fill="url(#ax-flare)"/>
+                  <circle cx="150" cy="84" r="11" fill="url(#ax-flare)"/>
+                </g>
               </g>
-              <g class="axis-flare" fill="#D2544A">
-                <circle cx="232" cy="71" r="5"/><circle cx="252" cy="68" r="3.5"/><circle cx="276" cy="69" r="4.5"/>
-              </g>
-              <rect x="150" y="48" width="230" height="132" rx="14" fill="none" stroke="#E6C98E" stroke-opacity=".35"/>
+              <rect x="24" y="44" width="312" height="150" rx="18" fill="none" stroke="#E6C98E" stroke-opacity=".3"/>
             </g>
 
-            <!-- Gut -->
+            <!-- Gut: large intestine frame with the small intestine coiled inside -->
             <g class="axis-gut">
-              <path d="M78 470V336q0-30 30-30h144q30 0 30 30v134" fill="none" stroke="#9E5E54" stroke-width="30" stroke-linecap="round"/>
-              <path d="M78 470V336q0-30 30-30h144q30 0 30 30v134" fill="none" stroke="#C98474" stroke-width="20" stroke-linecap="round"/>
-              <path d="M78 470V336q0-30 30-30h144q30 0 30 30v134" fill="none" stroke="#9E5E54" stroke-width="20" stroke-dasharray="2 16" stroke-linecap="round"/>
-              <path d="M116 344c40-12 84 8 122-2 18 6 14 30-12 30-36 0-82-6-104 16-8 18 26 26 70 22 40-4 62 10 52 30-14 16-66 14-106 10" fill="none" stroke="#B0685C" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M116 344c40-12 84 8 122-2 18 6 14 30-12 30-36 0-82-6-104 16-8 18 26 26 70 22 40-4 62 10 52 30-14 16-66 14-106 10" fill="none" stroke="#DE9C8B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M70 528V420q0-36 36-36h148q36 0 36 36v108" fill="none" stroke="#5E3036" stroke-opacity=".55" stroke-width="36" stroke-linecap="round"/>
+              <path d="M70 528V420q0-36 36-36h148q36 0 36 36v108" fill="none" stroke="url(#ax-tube)" stroke-width="28" stroke-linecap="round"/>
+              <path d="M70 528V420q0-36 36-36h148q36 0 36 36v108" fill="none" stroke="#8E4A49" stroke-opacity=".45" stroke-width="28" stroke-dasharray="2 18"/>
+              <path d="M62 526V420q0-44 44-44h148" fill="none" stroke="#FFD2C2" stroke-opacity=".45" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M112 422c38-12 94 6 134-6 20 6 16 32-10 32-40 0-94-6-118 16-10 20 28 28 72 24 42-4 66 8 58 28" fill="none" stroke="#7E4043" stroke-opacity=".7" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M112 422c38-12 94 6 134-6 20 6 16 32-10 32-40 0-94-6-118 16-10 20 28 28 72 24 42-4 66 8 58 28" fill="none" stroke="url(#ax-tube)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M112 420c38-12 94 6 134-6" fill="none" stroke="#FFD9CB" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>
               <g class="axis-microbes">
-                <ellipse cx="132" cy="350" rx="5" ry="2.6" fill="#9CC4A6"/><ellipse cx="200" cy="358" rx="4.5" ry="2.3" fill="#E6C98E"/>
-                <ellipse cx="150" cy="400" rx="5" ry="2.6" fill="#E6C98E"/><ellipse cx="226" cy="410" rx="4.5" ry="2.4" fill="#9CC4A6"/>
-                <ellipse cx="176" cy="440" rx="5" ry="2.6" fill="#F1EDF7"/><ellipse cx="96" cy="380" rx="4.5" ry="2.3" fill="#9CC4A6"/>
-                <ellipse cx="264" cy="360" rx="4.5" ry="2.3" fill="#F1EDF7"/><ellipse cx="236" cy="452" rx="5" ry="2.6" fill="#E6C98E"/>
+                <ellipse cx="128" cy="428" rx="5" ry="2.6" fill="#A6D1B0"/><ellipse cx="206" cy="436" rx="4.5" ry="2.3" fill="#E6C98E"/>
+                <ellipse cx="150" cy="470" rx="5" ry="2.6" fill="#E6C98E"/><ellipse cx="232" cy="470" rx="4.5" ry="2.4" fill="#A6D1B0"/>
+                <ellipse cx="176" cy="500" rx="5" ry="2.6" fill="#F4EFFA"/><ellipse cx="94" cy="456" rx="4.5" ry="2.3" fill="#A6D1B0"/>
+                <ellipse cx="268" cy="440" rx="4.5" ry="2.3" fill="#F4EFFA"/><ellipse cx="240" cy="508" rx="5" ry="2.6" fill="#E6C98E"/>
+                <ellipse cx="118" cy="500" rx="4" ry="2.2" fill="#F4EFFA"/><ellipse cx="196" cy="462" rx="4" ry="2.2" fill="#A6D1B0"/>
               </g>
-              <text class="axis-tag" x="180" y="496" text-anchor="middle">GUT</text>
+              <g class="axis-leak" fill="#FFE2A8">
+                <circle cx="168" cy="370" r="2.6"/><circle cx="182" cy="362" r="2"/><circle cx="194" cy="372" r="2.4"/><circle cx="176" cy="352" r="1.8"/>
+              </g>
+              <text class="axis-tag" x="24" y="552">GUT</text>
             </g>
 
-            <!-- The axis: drawn by scroll, particles travel along it -->
-            <path class="axis-path-glow" d="M180 318C180 262 116 250 140 212C162 178 246 206 262 150" fill="none" stroke="#E6C98E" stroke-width="10" stroke-linecap="round" filter="url(#axis-glow)" opacity=".45"/>
-            <path class="axis-path" d="M180 318C180 262 116 250 140 212C162 178 246 206 262 150" fill="none" stroke="#E6C98E" stroke-width="3" stroke-linecap="round"/>
+            <!-- The axis: drawn by scroll, led by a glowing tip, particles travel it -->
+            <path class="axis-path-glow" d="M180 398C180 348 112 330 112 280C112 226 248 236 248 188C248 166 214 152 188 142" fill="none" stroke="url(#ax-line)" stroke-width="12" stroke-linecap="round" filter="url(#ax-glow)" opacity=".5"/>
+            <path class="axis-path" d="M180 398C180 348 112 330 112 280C112 226 248 236 248 188C248 166 214 152 188 142" fill="none" stroke="url(#ax-line)" stroke-width="3" stroke-linecap="round"/>
             <g class="axis-particles"></g>
             <g class="axis-markers">
-              <g class="axis-marker" data-at=".02" transform="translate(180 312)"><circle r="13"/><text dy="4.5" text-anchor="middle">1</text></g>
-              <g class="axis-marker" data-at=".3" transform="translate(146 250)"><circle r="13"/><text dy="4.5" text-anchor="middle">2</text></g>
-              <g class="axis-marker" data-at=".62" transform="translate(172 196)"><circle r="13"/><text dy="4.5" text-anchor="middle">3</text></g>
-              <g class="axis-marker" data-at=".98" transform="translate(261 153)"><circle r="13"/><text dy="4.5" text-anchor="middle">4</text></g>
+              <g class="axis-marker" data-at=".06"><circle r="10"/><text dy="3.6" text-anchor="middle">1</text></g>
+              <g class="axis-marker" data-at=".36"><circle r="10"/><text dy="3.6" text-anchor="middle">2</text></g>
+              <g class="axis-marker" data-at=".66"><circle r="10"/><text dy="3.6" text-anchor="middle">3</text></g>
+              <g class="axis-marker" data-at=".96"><circle r="10"/><text dy="3.6" text-anchor="middle">4</text></g>
             </g>
+            <g class="axis-tip"><circle r="14" fill="url(#ax-dot)" opacity=".55"/><circle r="4.5" fill="#FFF4DC"/></g>
           </svg>
+          <div class="axis-progress" aria-hidden="true"><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span></div>
           <ol class="axis-steps">
-            <li>Stress, diet and age shift the balance of your gut bacteria.</li>
-            <li>The gut lining comes under strain and can let more through.</li>
-            <li>Inflammation signals travel through the body.</li>
-            <li>They show up on your skin as breakouts, redness or dryness.</li>
+            <li><span class="axis-step-label">Step 1</span>Stress, diet and age shift the balance of your gut bacteria.</li>
+            <li><span class="axis-step-label">Step 2</span>The gut lining comes under strain and can let more through.</li>
+            <li><span class="axis-step-label">Step 3</span>Inflammation signals travel through the body.</li>
+            <li><span class="axis-step-label">Step 4</span>They show up on your skin as breakouts, redness or dryness.</li>
           </ol>
           <figcaption>The gut-skin axis, as Stokes &amp; Pillsbury first described it in 1930.</figcaption>
         </figure>

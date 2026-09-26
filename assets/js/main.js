@@ -189,49 +189,59 @@
     show(0);
   }
 
-  // ── Gut-skin axis diagram: the path draws with scroll, particles travel it
+  // ── Gut-skin axis diagram: the path draws with scroll, led by a glowing tip;
+  //    particles shift from gold to coral as they travel from gut to skin.
   var axis = (function () {
     var fig = document.querySelector('[data-axis]');
     if (!fig) return null;
     var path = fig.querySelector('.axis-path'), glow = fig.querySelector('.axis-path-glow');
+    var tip = fig.querySelector('.axis-tip');
     var len = path.getTotalLength();
     var markers = [].slice.call(fig.querySelectorAll('.axis-marker'));
     var stepsEl = [].slice.call(fig.querySelectorAll('.axis-steps li'));
-    var thresholds = markers.map(function (m) { return parseFloat(m.getAttribute('data-at')); });
+    var fills = [].slice.call(fig.querySelectorAll('.axis-progress i'));
+    var marks = markers.map(function (m) { return parseFloat(m.getAttribute('data-at')); });
     markers.forEach(function (m, i) {
-      var pt = path.getPointAtLength(len * thresholds[i]);
+      var pt = path.getPointAtLength(len * marks[i]);
       m.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')');
     });
-    var drawn = 1;
+    var drawn = 1, n = stepsEl.length;
     function set(p) {
-      drawn = p;
-      var off = (len * (1 - p)).toFixed(1);
+      drawn = Math.min(1, Math.max(0, p));
+      var off = (len * (1 - drawn)).toFixed(1);
       [path, glow].forEach(function (el) { el.style.strokeDasharray = len; el.style.strokeDashoffset = off; });
-      var on = 0;
-      thresholds.forEach(function (t, i) {
-        var lit = p >= t - 0.001;
-        if (lit) on = i + 1;
-        markers[i].classList.toggle('is-on', lit);
-        stepsEl[i].classList.toggle('is-on', lit);
+      var pt = path.getPointAtLength(len * drawn);
+      tip.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')');
+      tip.style.opacity = drawn > 0.005 && drawn < 0.995 ? 1 : 0;
+      var current = Math.min(n - 1, Math.floor(drawn * n));
+      stepsEl.forEach(function (li, i) {
+        li.classList.toggle('is-current', i === current);
+        li.classList.toggle('is-on', drawn * n >= i);
       });
-      fig.classList.toggle('is-flared', on === markers.length);
+      fills.forEach(function (f, i) { f.style.transform = 'scaleX(' + Math.min(1, Math.max(0, drawn * n - i)).toFixed(3) + ')'; });
+      markers.forEach(function (m, i) { m.classList.toggle('is-on', drawn >= marks[i] - 0.001); });
+      fig.classList.toggle('is-leaking', drawn >= 0.25);
+      fig.classList.toggle('is-flared', drawn >= 0.9);
     }
     // Particles: only while the figure is on screen, and never with reduced motion
-    var g = fig.querySelector('.axis-particles'), dots = [], N = 9, running = false, visibleNow = false;
+    var g = fig.querySelector('.axis-particles'), dots = [], N = 12, running = false, visibleNow = false;
+    var from = [230, 201, 142], to = [240, 128, 106];
     if (!reduceMotion) {
       for (var i = 0; i < N; i++) {
         var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        c.setAttribute('r', i % 3 ? 2.6 : 3.6);
+        c.setAttribute('r', i % 3 ? 2.2 : 3.2);
         g.appendChild(c); dots.push(c);
       }
       var loop = function (now) {
         if (!visibleNow) { running = false; return; }
         dots.forEach(function (d, i) {
-          var ph = (now / 3200 + i / N) % 1;
+          var ph = (now / 3600 + i / N) % 1;
           var along = ph * drawn;
           var pt = path.getPointAtLength(len * along);
           d.setAttribute('cx', pt.x.toFixed(1)); d.setAttribute('cy', pt.y.toFixed(1));
-          d.style.opacity = drawn < 0.03 ? 0 : Math.min(1, ph * 6, (1 - ph) * 6).toFixed(2);
+          var rgb = from.map(function (v, k) { return Math.round(v + (to[k] - v) * along); });
+          d.setAttribute('fill', 'rgb(' + rgb.join(',') + ')');
+          d.style.opacity = drawn < 0.03 ? 0 : Math.min(1, ph * 5, (1 - ph) * 5).toFixed(2);
         });
         requestAnimationFrame(loop);
       };
@@ -310,17 +320,22 @@
     scrollTrigger: { trigger: '.compare', start: 'top 75%', once: true },
   });
 
-  // Gut-skin diagram draws itself as the section scrolls by
+  // Gut-skin diagram draws itself as the section scrolls by. On desktop it sits
+  // beside the story; on phones it pins in place while the reader scrolls through it.
   if (axis) {
+    axis.fig.classList.add('axis-live');
     axis.set(0);
+    var ease = function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
     var mm = gsap.matchMedia();
     mm.add('(min-width: 900px)', function () {
-      ScrollTrigger.create({ trigger: axis.fig.closest('.split'), start: 'top 65%', end: 'bottom 75%', scrub: 0.5,
-        onUpdate: function (self) { axis.set(self.progress); } });
+      ScrollTrigger.create({ trigger: axis.fig.closest('.split'), start: 'top 45%', end: 'bottom 55%', scrub: 0.8,
+        onUpdate: function (self) { axis.set(ease(self.progress)); } });
     });
     mm.add('(max-width: 899px)', function () {
-      ScrollTrigger.create({ trigger: axis.fig, start: 'top 75%', end: 'bottom 80%', scrub: 0.5,
-        onUpdate: function (self) { axis.set(self.progress); } });
+      root.classList.add('axis-pinned');
+      ScrollTrigger.create({ trigger: axis.fig.parentNode, start: 'top 55%', end: 'bottom bottom', scrub: 0.8,
+        onUpdate: function (self) { axis.set(ease(Math.min(1, self.progress / 0.88))); } });
+      return function () { root.classList.remove('axis-pinned'); };
     });
   }
 
