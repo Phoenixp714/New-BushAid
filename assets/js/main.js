@@ -9,7 +9,7 @@
   var SHOP = {
     store: 'https://c0qvns-0y.myshopify.com',
     product: '/products/bushaid-gut-skin-axis-support-capsules',
-    VARIANT_ID: '',
+    VARIANT_ID: '43851217403971',
   };
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -97,8 +97,8 @@
   // ── Quiz: one question at a time, then a personal recommendation
   var PLANS = {
     1: { name: '1 Bottle · 60-day supply', price: '$49.99', value: '49.99', days: 60 },
-    2: { name: '2 Bottles · 120-day supply', price: '$89.98', value: '89.98', days: 120, note: 'save 10%' },
-    3: { name: '3 Bottles · 180-day supply', price: '$127.47', value: '127.47', days: 180, note: 'save 15%' },
+    2: { name: '2 Bottles · 120-day supply', price: '$90.00', value: '90.00', days: 120, note: 'save 10%' },
+    3: { name: '3 Bottles · 180-day supply', price: '$127.50', value: '127.50', days: 180, note: 'save 15%' },
   };
   var quiz = document.querySelector('[data-quiz]');
   if (quiz) {
