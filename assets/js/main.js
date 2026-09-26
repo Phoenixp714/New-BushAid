@@ -10,7 +10,7 @@
   //  matches the bundle price. Until a code is filled in for a quantity, that
   //  button opens the product page instead, where the bundle app applies savings.
   var SHOP = {
-    store: 'https://c0qvns-0y.myshopify.com',
+    store: 'https://shop.bushaidhealth.com',
     product: '/products/bushaid-gut-skin-axis-support-capsules',
     VARIANT_ID: '43851217403971',
     BUNDLE_CODES: { 2: 'BUNDLE2', 3: 'BUNDLE3' },
