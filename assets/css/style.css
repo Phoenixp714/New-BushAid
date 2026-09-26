@@ -142,6 +142,14 @@ em { font-style: italic; }
 .bottle-stage canvas { opacity: 0; transition: opacity .8s; }
 .bottle-stage.is-3d canvas { opacity: 1; }
 .bottle-stage.is-3d .bottle-fallback { opacity: 0; }
+/* When 3D isn't available, the photo floats and sways gently so the hero still feels alive */
+@media (prefers-reduced-motion: no-preference) {
+  .bottle-stage:not(.is-3d) .bottle-fallback { animation: bottle-float 7s ease-in-out infinite; }
+}
+@keyframes bottle-float {
+  0%, 100% { transform: translateY(0) rotate(-1.2deg); }
+  50%      { transform: translateY(-12px) rotate(1.2deg); }
+}
 .stage-glow {
   position: absolute; left: 50%; top: 52%; width: 90%; aspect-ratio: 1; transform: translate(-50%,-50%);
   background: radial-gradient(circle, rgba(226,182,106,.28) 0%, rgba(226,182,106,.08) 40%, transparent 68%);

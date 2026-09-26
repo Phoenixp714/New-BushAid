@@ -1,8 +1,10 @@
 // BushAid 3D bottle: a Three.js model with a drawn wrap-around label.
 // Each <canvas data-bottle="hero|inside"> gets its own small renderer. Until the
 // model is ready (or if WebGL is unavailable) the <img> fallback beside it shows.
-import * as THREE from 'three';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+// Loaded by full URL rather than through an import map: some hosts inject
+// their own module scripts first, and browsers ignore an import map that
+// arrives after that, which silently broke the 3D bottle.
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -137,6 +139,39 @@ function drawLabel() {
   return c;
 }
 
+// ---------- Studio reflections ----------
+// Compact port of three.js's RoomEnvironment (from Google's model-viewer, MIT):
+// a lit box room that gives the glossy plastic something to reflect.
+function roomEnvironment() {
+  const scene = new THREE.Scene();
+  const geo = new THREE.BoxGeometry();
+  geo.deleteAttribute('uv');
+  const light = new THREE.PointLight(0xffffff, 900, 28, 2);
+  light.position.set(0.418, 16.199, 0.3);
+  scene.add(light);
+  const add = (mat, p, s, ry = 0) => {
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(...p); m.scale.set(...s); m.rotation.y = ry;
+    scene.add(m);
+  };
+  add(new THREE.MeshStandardMaterial({ side: THREE.BackSide }), [-0.757, 13.219, 0.717], [31.713, 28.305, 28.591]);
+  const box = new THREE.MeshStandardMaterial();
+  add(box, [-10.906, 2.009, 1.846], [2.328, 7.905, 4.651], -0.195);
+  add(box, [-5.607, -0.754, -0.758], [1.97, 1.534, 3.955], 0.994);
+  add(box, [6.167, 0.857, 7.803], [3.927, 6.285, 3.687], 0.561);
+  add(box, [-2.017, 0.018, 6.124], [2.002, 4.566, 2.064], 0.333);
+  add(box, [2.291, -0.756, -2.621], [1.546, 1.552, 1.496], -0.286);
+  add(box, [-2.193, -0.369, -5.547], [3.875, 3.487, 2.986], 0.516);
+  const glow = (i) => { const m = new THREE.MeshBasicMaterial(); m.color.setScalar(i); return m; };
+  add(glow(50), [-16.116, 14.37, 8.208], [0.1, 2.428, 2.739]);
+  add(glow(50), [-16.109, 18.021, -8.207], [0.1, 2.425, 2.751]);
+  add(glow(17), [14.904, 12.198, -1.832], [0.15, 4.265, 6.331]);
+  add(glow(43), [-0.462, 8.89, 14.52], [4.38, 5.441, 0.088]);
+  add(glow(20), [3.235, 11.486, -12.541], [2.5, 2.0, 0.1]);
+  add(glow(100), [0, 20, 0], [1.0, 0.1, 1.0]);
+  return scene;
+}
+
 // ---------- Geometry helpers ----------
 function knurl(geo, rMin, yMin, yMax, ridges, depth) {
   const p = geo.attributes.position;
@@ -235,7 +270,7 @@ function createViewer(canvas, labelCanvas, mode) {
 
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environment = pmrem.fromScene(roomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 0.55;
 
   // Cinematic lighting: warm key, gold rim, cool fill
