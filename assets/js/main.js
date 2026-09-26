@@ -74,14 +74,21 @@
   // Hero intro
   gsap.to('[data-hero]', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07 });
 
-  // Section reveals
-  ScrollTrigger.batch('[data-reveal]', {
-    start: 'top 88%',
-    once: true,
-    onEnter: function (batch) {
-      gsap.to(batch, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.12, overwrite: true });
-    },
-  });
+  // Section reveals: on every scroll update, fade in anything whose top has
+  // reached 88% of the viewport. Checking positions (not enter events) means a
+  // fast fling or a jump link can never leave content stuck invisible.
+  var pending = gsap.utils.toArray('[data-reveal]');
+  var revealCheck = function () {
+    if (!pending.length) return;
+    var line = window.innerHeight * 0.88, batch = [];
+    pending = pending.filter(function (el) {
+      if (el.getBoundingClientRect().top < line) { batch.push(el); return false; }
+      return true;
+    });
+    if (batch.length) gsap.to(batch, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.12, overwrite: true });
+  };
+  ScrollTrigger.create({ start: 0, end: 'max', onUpdate: revealCheck, onRefresh: revealCheck });
+  revealCheck();
 
   // Gentle image parallax
   gsap.utils.toArray('[data-parallax]').forEach(function (img) {
