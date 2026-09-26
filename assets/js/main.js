@@ -3,13 +3,17 @@
   'use strict';
 
   // ── Store settings ───────────────────────────────────────────────────────
-  //  VARIANT_ID: paste the product's Shopify variant ID here (a long number) to
-  //  send bundle buttons straight to a cart that already holds 1, 2 or 3 bottles.
-  //  Left empty, every button opens the product page as before.
+  //  VARIANT_ID: the product's Shopify variant ID. With it, buy buttons go
+  //  straight to checkout holding 1, 2 or 3 bottles.
+  //  BUNDLE_CODES: the bundle app (AOV.ai) only discounts orders made through its
+  //  own widget, so multi-bottle checkout links need a Shopify discount code that
+  //  matches the bundle price. Until a code is filled in for a quantity, that
+  //  button opens the product page instead, where the bundle app applies savings.
   var SHOP = {
     store: 'https://c0qvns-0y.myshopify.com',
     product: '/products/bushaid-gut-skin-axis-support-capsules',
     VARIANT_ID: '43851217403971',
+    BUNDLE_CODES: { 2: '', 3: '' },
   };
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -21,13 +25,20 @@
   incoming.forEach(function (v, k) {
     if (/^utm_|^(fbclid|gclid|ttclid)$/.test(k)) forward.set(k, v);
   });
-  var qs = forward.toString();
+  function withQuery(url, extra) {
+    var q = new URLSearchParams(forward);
+    if (extra) Object.keys(extra).forEach(function (k) { q.set(k, extra[k]); });
+    var str = q.toString();
+    return url + (str ? '?' + str : '');
+  }
   function shopLink(qty) {
-    if (SHOP.VARIANT_ID && qty) {
-      // Shopify cart permalink: replaces the cart with this bundle and opens checkout
-      return SHOP.store + '/cart/' + SHOP.VARIANT_ID + ':' + qty + (qs ? '?' + qs : '');
+    var code = SHOP.BUNDLE_CODES[qty];
+    if (SHOP.VARIANT_ID && (qty === 1 || (qty > 1 && code))) {
+      // Shopify cart permalink: replaces the cart with this bundle and opens
+      // checkout, applying the bundle's discount code when there is one
+      return withQuery(SHOP.store + '/cart/' + SHOP.VARIANT_ID + ':' + qty, code ? { discount: code } : null);
     }
-    return SHOP.store + SHOP.product + (qs ? '?' + qs : '');
+    return withQuery(SHOP.store + SHOP.product);
   }
   function setShopLink(a) { a.href = shopLink(parseInt(a.getAttribute('data-qty'), 10) || 0); }
   document.querySelectorAll('[data-shop]').forEach(setShopLink);
