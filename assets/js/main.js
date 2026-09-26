@@ -142,5 +142,9 @@
     });
   }
 
+  // Re-measure trigger positions once web fonts and images have settled, since
+  // late font swaps reflow the text and shift every section below.
   ScrollTrigger.refresh();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
