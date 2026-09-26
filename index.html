@@ -79,6 +79,7 @@ src="https://www.facebook.com/tr?id=933465302711700&ev=PageView&noscript=1"
         <div class="stage-glow" aria-hidden="true"></div>
         <img class="bottle-fallback" src="assets/img/bottle.webp" width="480" height="860" alt="BushAid Gut-Skin Axis supplement bottle, 60 capsules" fetchpriority="high">
         <canvas data-bottle="hero" aria-hidden="true"></canvas>
+        <p class="drag-hint" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 3v4h-4M6 21v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Drag to spin</p>
       </div>
       <p class="stage-badge" data-hero><strong>60 capsules</strong> · 60-day supply</p>
     </div>
@@ -161,10 +162,71 @@ src="https://www.facebook.com/tr?id=933465302711700&ev=PageView&noscript=1"
         </figure>
         <p data-reveal>In 2011, researchers Bowe and Logan revived the work and found modern research had quietly validated many of its core ideas. Today it's called the <strong>gut-skin axis</strong>. Most probiotics on the shelf still haven't caught up.</p>
       </div>
-      <div class="split-media" data-reveal>
-        <div class="media-frame">
-          <img data-parallax src="assets/img/gut-skin-diagram.webp" width="768" height="1376" loading="lazy" alt="Illustration of gut bacteria connected to layers of skin">
-        </div>
+      <div class="split-media axis-media">
+        <figure class="axis" data-axis>
+          <svg class="axis-svg" viewBox="0 0 400 500" role="img" aria-labelledby="axis-svg-title">
+            <title id="axis-svg-title">Diagram: a pathway runs from the gut up to the layers of the skin</title>
+            <defs>
+              <clipPath id="skin-clip"><rect x="150" y="48" width="230" height="132" rx="14"/></clipPath>
+              <filter id="axis-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+            </defs>
+
+            <!-- Skin cross-section -->
+            <g class="axis-skin">
+              <text class="axis-tag" x="265" y="34" text-anchor="middle">SKIN</text>
+              <g clip-path="url(#skin-clip)">
+                <rect x="150" y="48" width="230" height="132" fill="#2A2440"/>
+                <rect x="150" y="146" width="230" height="34" fill="#E9D6A6" fill-opacity=".22"/>
+                <g fill="#E9D6A6" fill-opacity=".35">
+                  <circle cx="168" cy="162" r="9"/><circle cx="190" cy="168" r="8"/><circle cx="214" cy="160" r="10"/><circle cx="240" cy="169" r="9"/><circle cx="265" cy="161" r="8"/><circle cx="289" cy="168" r="10"/><circle cx="315" cy="160" r="9"/><circle cx="340" cy="167" r="8"/><circle cx="364" cy="161" r="10"/>
+                </g>
+                <rect x="150" y="96" width="230" height="50" fill="#D9A48F" fill-opacity=".55"/>
+                <path d="M160 128c14-8 22 8 36 0s22 8 36 0 22 8 36 0 22 8 36 0 22 8 36 0 22 8 36 0" fill="none" stroke="#C0564B" stroke-opacity=".7" stroke-width="2"/>
+                <path d="M150 74c22-10 40 6 62-4s40 6 62-4 40 6 62-4 30 4 44-2V98H150z" fill="#EBC7AF"/>
+                <path d="M205 70v58M300 64v62" stroke="#7A5345" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M205 70q-6-18 4-30M300 64q8-16-2-28" fill="none" stroke="#7A5345" stroke-width="1.6" stroke-linecap="round"/>
+              </g>
+              <g class="axis-flare" fill="#D2544A">
+                <circle cx="232" cy="71" r="5"/><circle cx="252" cy="68" r="3.5"/><circle cx="276" cy="69" r="4.5"/>
+              </g>
+              <rect x="150" y="48" width="230" height="132" rx="14" fill="none" stroke="#E6C98E" stroke-opacity=".35"/>
+            </g>
+
+            <!-- Gut -->
+            <g class="axis-gut">
+              <path d="M78 470V336q0-30 30-30h144q30 0 30 30v134" fill="none" stroke="#9E5E54" stroke-width="30" stroke-linecap="round"/>
+              <path d="M78 470V336q0-30 30-30h144q30 0 30 30v134" fill="none" stroke="#C98474" stroke-width="20" stroke-linecap="round"/>
+              <path d="M78 470V336q0-30 30-30h144q30 0 30 30v134" fill="none" stroke="#9E5E54" stroke-width="20" stroke-dasharray="2 16" stroke-linecap="round"/>
+              <path d="M116 344c40-12 84 8 122-2 18 6 14 30-12 30-36 0-82-6-104 16-8 18 26 26 70 22 40-4 62 10 52 30-14 16-66 14-106 10" fill="none" stroke="#B0685C" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M116 344c40-12 84 8 122-2 18 6 14 30-12 30-36 0-82-6-104 16-8 18 26 26 70 22 40-4 62 10 52 30-14 16-66 14-106 10" fill="none" stroke="#DE9C8B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+              <g class="axis-microbes">
+                <ellipse cx="132" cy="350" rx="5" ry="2.6" fill="#9CC4A6"/><ellipse cx="200" cy="358" rx="4.5" ry="2.3" fill="#E6C98E"/>
+                <ellipse cx="150" cy="400" rx="5" ry="2.6" fill="#E6C98E"/><ellipse cx="226" cy="410" rx="4.5" ry="2.4" fill="#9CC4A6"/>
+                <ellipse cx="176" cy="440" rx="5" ry="2.6" fill="#F1EDF7"/><ellipse cx="96" cy="380" rx="4.5" ry="2.3" fill="#9CC4A6"/>
+                <ellipse cx="264" cy="360" rx="4.5" ry="2.3" fill="#F1EDF7"/><ellipse cx="236" cy="452" rx="5" ry="2.6" fill="#E6C98E"/>
+              </g>
+              <text class="axis-tag" x="180" y="496" text-anchor="middle">GUT</text>
+            </g>
+
+            <!-- The axis: drawn by scroll, particles travel along it -->
+            <path class="axis-path-glow" d="M180 318C180 262 116 250 140 212C162 178 246 206 262 150" fill="none" stroke="#E6C98E" stroke-width="10" stroke-linecap="round" filter="url(#axis-glow)" opacity=".45"/>
+            <path class="axis-path" d="M180 318C180 262 116 250 140 212C162 178 246 206 262 150" fill="none" stroke="#E6C98E" stroke-width="3" stroke-linecap="round"/>
+            <g class="axis-particles"></g>
+            <g class="axis-markers">
+              <g class="axis-marker" data-at=".02" transform="translate(180 312)"><circle r="13"/><text dy="4.5" text-anchor="middle">1</text></g>
+              <g class="axis-marker" data-at=".3" transform="translate(146 250)"><circle r="13"/><text dy="4.5" text-anchor="middle">2</text></g>
+              <g class="axis-marker" data-at=".62" transform="translate(172 196)"><circle r="13"/><text dy="4.5" text-anchor="middle">3</text></g>
+              <g class="axis-marker" data-at=".98" transform="translate(261 153)"><circle r="13"/><text dy="4.5" text-anchor="middle">4</text></g>
+            </g>
+          </svg>
+          <ol class="axis-steps">
+            <li>Stress, diet and age shift the balance of your gut bacteria.</li>
+            <li>The gut lining comes under strain and can let more through.</li>
+            <li>Inflammation signals travel through the body.</li>
+            <li>They show up on your skin as breakouts, redness or dryness.</li>
+          </ol>
+          <figcaption>The gut-skin axis, as Stokes &amp; Pillsbury first described it in 1930.</figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -218,41 +280,136 @@ src="https://www.facebook.com/tr?id=933465302711700&ev=PageView&noscript=1"
           <div class="stage-glow" aria-hidden="true"></div>
           <img class="bottle-fallback" src="assets/img/bottle.webp" width="480" height="860" loading="lazy" alt="">
           <canvas data-bottle="inside" aria-hidden="true"></canvas>
+          <p class="drag-hint" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 3v4h-4M6 21v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Drag to spin</p>
         </div>
       </div>
       <ol class="ing-list">
         <li class="ing">
-          <p class="ing-dose">5 Billion CFU</p>
-          <h3>Probiotic Blend</h3>
-          <p>Five Lactobacillus strains, including <em>L. acidophilus</em>, the culture Stokes &amp; Pillsbury recommended in 1930.</p>
+          <div class="ing-card">
+            <div class="ing-face ing-front">
+              <p class="ing-dose">5 Billion CFU</p>
+              <h3>Probiotic Blend</h3>
+              <p>Five Lactobacillus strains, including <em>L. acidophilus</em>, the culture Stokes &amp; Pillsbury recommended in 1930.</p>
+              <button type="button" class="ing-flip" aria-label="See the research on probiotics">See the research <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="ing-face ing-back" inert>
+              <p class="ing-dose">The research</p>
+              <p class="ing-finding">Researchers revisited Stokes &amp; Pillsbury's 1930 gut-skin theory and found that modern science supports many of its core ideas, including a role for probiotics.</p>
+              <p class="ing-cite">Bowe &amp; Logan, <em>Gut Pathogens</em>, 2011</p>
+              <div class="ing-back-actions">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Acne+vulgaris%2C+probiotics+and+the+gut-brain-skin+axis+back+to+the+future" target="_blank" rel="noopener">Read it on PubMed <span aria-hidden="true">↗</span></a>
+                <button type="button" class="ing-flip">Back</button>
+              </div>
+            </div>
+          </div>
         </li>
         <li class="ing">
-          <p class="ing-dose">10mg · 91% DV</p>
-          <h3>Zinc</h3>
-          <p>Supports normal skin and immune function. The ingredient most probiotics leave out.</p>
+          <div class="ing-card">
+            <div class="ing-face ing-front">
+              <p class="ing-dose">10mg · 91% DV</p>
+              <h3>Zinc</h3>
+              <p>Supports normal skin and immune function. The ingredient most probiotics leave out.</p>
+              <button type="button" class="ing-flip" aria-label="See the research on zinc">See the research <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="ing-face ing-back" inert>
+              <p class="ing-dose">The research</p>
+              <p class="ing-finding">People with acne had lower blood zinc levels on average than people without it, and lower levels went along with more severe breakouts.</p>
+              <p class="ing-cite">Rostami Mogaddam et al., <em>BioMed Research International</em>, 2014</p>
+              <div class="ing-back-actions">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Correlation+between+the+severity+and+type+of+acne+lesions+with+serum+zinc+levels+in+patients+with+acne+vulgaris" target="_blank" rel="noopener">Read it on PubMed <span aria-hidden="true">↗</span></a>
+                <button type="button" class="ing-flip">Back</button>
+              </div>
+            </div>
+          </div>
         </li>
         <li class="ing">
-          <p class="ing-dose">50mg · 56% DV</p>
-          <h3>Vitamin C</h3>
-          <p>An antioxidant that supports collagen formation and your body's natural defenses.</p>
+          <div class="ing-card">
+            <div class="ing-face ing-front">
+              <p class="ing-dose">50mg · 56% DV</p>
+              <h3>Vitamin C</h3>
+              <p>An antioxidant that supports collagen formation and your body's natural defenses.</p>
+              <button type="button" class="ing-flip" aria-label="See the research on vitamin C">See the research <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="ing-face ing-back" inert>
+              <p class="ing-dose">The research</p>
+              <p class="ing-finding">Healthy skin holds high levels of vitamin C, which it relies on to build collagen and to protect itself from oxidative stress.</p>
+              <p class="ing-cite">Pullar, Carr &amp; Vissers, <em>Nutrients</em>, 2017</p>
+              <div class="ing-back-actions">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=The+Roles+of+Vitamin+C+in+Skin+Health" target="_blank" rel="noopener">Read it on PubMed <span aria-hidden="true">↗</span></a>
+                <button type="button" class="ing-flip">Back</button>
+              </div>
+            </div>
+          </div>
         </li>
         <li class="ing">
-          <p class="ing-dose">30mg</p>
-          <h3>Hyaluronic Acid</h3>
-          <p>Known for helping skin hold on to moisture, for that soft, hydrated feel.</p>
+          <div class="ing-card">
+            <div class="ing-face ing-front">
+              <p class="ing-dose">30mg</p>
+              <h3>Hyaluronic Acid</h3>
+              <p>Known for helping skin hold on to moisture, for that soft, hydrated feel.</p>
+              <button type="button" class="ing-flip" aria-label="See the research on hyaluronic acid">See the research <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="ing-face ing-back" inert>
+              <p class="ing-dose">The research</p>
+              <p class="ing-finding">In a placebo-controlled trial, people who took hyaluronic acid by mouth had better skin moisture than those on a placebo.</p>
+              <p class="ing-cite">Kawada et al., <em>Nutrition Journal</em>, 2014</p>
+              <div class="ing-back-actions">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Ingested+hyaluronan+moisturizes+dry+skin" target="_blank" rel="noopener">Read it on PubMed <span aria-hidden="true">↗</span></a>
+                <button type="button" class="ing-flip">Back</button>
+              </div>
+            </div>
+          </div>
         </li>
         <li class="ing">
-          <p class="ing-dose">80mg + 10mg</p>
-          <h3>Turmeric &amp; Black Pepper</h3>
-          <p>A classic antioxidant pairing. Black pepper is included to help your body absorb turmeric.</p>
+          <div class="ing-card">
+            <div class="ing-face ing-front">
+              <p class="ing-dose">80mg + 10mg</p>
+              <h3>Turmeric &amp; Black Pepper</h3>
+              <p>A classic antioxidant pairing. Black pepper is included to help your body absorb turmeric.</p>
+              <button type="button" class="ing-flip" aria-label="See the research on turmeric and black pepper">See the research <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="ing-face ing-back" inert>
+              <p class="ing-dose">The research</p>
+              <p class="ing-finding">When volunteers took curcumin (from turmeric) together with piperine (from black pepper), their bodies absorbed many times more curcumin.</p>
+              <p class="ing-cite">Shoba et al., <em>Planta Medica</em>, 1998</p>
+              <div class="ing-back-actions">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Influence+of+piperine+on+the+pharmacokinetics+of+curcumin+in+animals+and+human+volunteers" target="_blank" rel="noopener">Read it on PubMed <span aria-hidden="true">↗</span></a>
+                <button type="button" class="ing-flip">Back</button>
+              </div>
+            </div>
+          </div>
         </li>
         <li class="ing">
-          <p class="ing-dose">9mg</p>
-          <h3>Inulin</h3>
-          <p>A prebiotic fiber: food for the good bacteria, so they have something to work with.</p>
+          <div class="ing-card">
+            <div class="ing-face ing-front">
+              <p class="ing-dose">9mg</p>
+              <h3>Inulin</h3>
+              <p>A prebiotic fiber: food for the good bacteria, so they have something to work with.</p>
+              <button type="button" class="ing-flip" aria-label="See the research on inulin">See the research <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="ing-face ing-back" inert>
+              <p class="ing-dose">The research</p>
+              <p class="ing-finding">The paper that introduced the word &ldquo;prebiotic&rdquo; showed that inulin-type fibers selectively feed the beneficial bacteria in your gut.</p>
+              <p class="ing-cite">Gibson &amp; Roberfroid, <em>Journal of Nutrition</em>, 1995</p>
+              <div class="ing-back-actions">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Dietary+modulation+of+the+human+colonic+microbiota+introducing+the+concept+of+prebiotics" target="_blank" rel="noopener">Read it on PubMed <span aria-hidden="true">↗</span></a>
+                <button type="button" class="ing-flip">Back</button>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="ing ing-finale">
+          <div class="ing-card">
+            <div class="ing-face ing-front">
+              <p class="ing-dose">60 capsules · 60 days</p>
+              <h3>All of it, in one capsule a day</h3>
+              <p>No handful of pills. One capsule with breakfast covers your gut, your skin and your immune system.</p>
+              <a href="#shop" class="btn btn-gold btn-sm" data-track="inside-finale">Choose your supply</a>
+            </div>
+          </div>
         </li>
       </ol>
-      <div class="ing-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="ing-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     </div>
   </div>
 </section>
@@ -275,6 +432,7 @@ src="https://www.facebook.com/tr?id=933465302711700&ev=PageView&noscript=1"
         </tbody>
       </table>
       <p class="facts-note">** Daily Value not established.</p>
+      <p class="facts-note">The research notes on the ingredient cards describe studies of individual ingredients, often at different amounts, not studies of BushAid itself.</p>
     </details>
     <a href="#shop" class="btn btn-gold" data-track="ingredients">Get BushAid — $49.99</a>
   </div>
@@ -298,6 +456,85 @@ src="https://www.facebook.com/tr?id=933465302711700&ev=PageView&noscript=1"
       <div class="compare-row"><span>Immune support</span><span class="no" aria-label="No"></span><span class="yes" aria-label="Yes"></span></div>
       <div class="compare-row"><span>Prebiotic fiber to feed good bacteria</span><span class="no" aria-label="No"></span><span class="yes" aria-label="Yes"></span></div>
       <div class="compare-row"><span>Absorption helper (black pepper)</span><span class="no" aria-label="No"></span><span class="yes" aria-label="Yes"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ QUIZ ═════════ -->
+<section class="section section-tint quiz-section" id="quiz" aria-labelledby="quiz-title">
+  <div class="wrap narrow">
+    <div class="section-head center" data-reveal>
+      <p class="kicker">60-second check-in</p>
+      <h2 id="quiz-title">Is your skin trying to tell you something about your gut?</h2>
+      <p class="quiz-sub">Five quick questions. Tap an answer to go to the next one.</p>
+    </div>
+    <div class="quiz" data-quiz data-reveal>
+      <div class="quiz-top">
+        <button type="button" class="quiz-back" hidden><span aria-hidden="true">←</span> Back</button>
+        <p class="quiz-count" aria-live="polite">Question 1 of 5</p>
+      </div>
+      <div class="quiz-bar" aria-hidden="true"><span></span></div>
+      <div class="quiz-steps">
+        <div class="quiz-q" data-key="bloat">
+          <h3 class="quiz-question">How often do you feel bloated or uncomfortable after meals?</h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-score="0">Rarely</button>
+            <button type="button" class="quiz-opt" data-score="1">Sometimes</button>
+            <button type="button" class="quiz-opt" data-score="2">Often</button>
+          </div>
+        </div>
+        <div class="quiz-q" data-key="skin">
+          <h3 class="quiz-question">Do breakouts, redness or dry patches flare up when you're stressed or eating differently?</h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-score="0">Not really</button>
+            <button type="button" class="quiz-opt" data-score="1">Sometimes</button>
+            <button type="button" class="quiz-opt" data-score="2">Yes, often</button>
+          </div>
+        </div>
+        <div class="quiz-q" data-key="probiotic">
+          <h3 class="quiz-question">Have you tried a probiotic before?</h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-score="0">No, never</button>
+            <button type="button" class="quiz-opt" data-score="2">Yes, but I didn't notice much</button>
+            <button type="button" class="quiz-opt" data-score="2">Yes. It helped my digestion, not my skin</button>
+          </div>
+        </div>
+        <div class="quiz-q" data-key="immune">
+          <h3 class="quiz-question">How often do you catch colds or feel run down?</h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-score="0">Rarely</button>
+            <button type="button" class="quiz-opt" data-score="1">A few times a year</button>
+            <button type="button" class="quiz-opt" data-score="2">More often than I'd like</button>
+          </div>
+        </div>
+        <div class="quiz-q" data-key="duration">
+          <h3 class="quiz-question">How long have you been dealing with this?</h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-score="0">Less than 3 months</button>
+            <button type="button" class="quiz-opt" data-score="1">3 to 12 months</button>
+            <button type="button" class="quiz-opt" data-score="2">Over a year</button>
+          </div>
+        </div>
+      </div>
+      <div class="quiz-result" hidden tabindex="-1">
+        <p class="kicker">Your result</p>
+        <h3 class="quiz-result-title"></h3>
+        <ul class="quiz-reasons"></ul>
+        <div class="quiz-rec">
+          <div class="quiz-rec-img"></div>
+          <div>
+            <p class="quiz-rec-label">Recommended for you</p>
+            <p class="quiz-rec-name"></p>
+            <p class="quiz-rec-why"></p>
+          </div>
+        </div>
+        <div class="quiz-actions">
+          <a href="#" class="btn btn-gold quiz-rec-cta" data-shop="quiz" data-qty="3" data-value="127.47">Get my recommended supply</a>
+          <a href="#shop" class="quiz-compare" data-track="quiz-compare">Compare all options</a>
+        </div>
+        <button type="button" class="quiz-restart">Retake the quiz</button>
+        <p class="fine">This quiz is for general interest only and isn't medical advice.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -339,31 +576,31 @@ src="https://www.facebook.com/tr?id=933465302711700&ev=PageView&noscript=1"
       <p class="offer-sub">Every bottle is a full 60-day supply. Save more when you stock up.</p>
     </div>
     <div class="plans">
-      <article class="plan" data-reveal>
+      <article class="plan" data-plan data-reveal>
         <div class="plan-img plan-img-1"><img src="assets/img/bottle.webp" width="480" height="860" loading="lazy" alt="One bottle of BushAid"></div>
         <h3>1 Bottle</h3>
         <p class="plan-days">60-day supply</p>
         <p class="plan-price"><span class="amt">$49.99</span></p>
         <p class="plan-per">&nbsp;</p>
-        <a href="#" class="btn btn-outline" data-shop="plan-1" data-value="49.99">Choose 1 bottle</a>
+        <a href="#" class="btn btn-outline" data-shop="plan-1" data-qty="1" data-value="49.99">Choose 1 bottle</a>
       </article>
-      <article class="plan" data-reveal>
+      <article class="plan" data-plan data-reveal>
         <p class="plan-flag">Save 10%</p>
         <div class="plan-img plan-img-2"><img src="assets/img/bottle.webp" width="480" height="860" loading="lazy" alt="Two bottles of BushAid"><img src="assets/img/bottle.webp" width="480" height="860" loading="lazy" alt=""></div>
         <h3>2 Bottles</h3>
         <p class="plan-days">120-day supply</p>
         <p class="plan-price"><s>$99.98</s> <span class="amt">$89.98</span></p>
         <p class="plan-per">$44.99 per bottle</p>
-        <a href="#" class="btn btn-outline" data-shop="plan-2" data-value="89.98">Choose 2 bottles</a>
+        <a href="#" class="btn btn-outline" data-shop="plan-2" data-qty="2" data-value="89.98">Choose 2 bottles</a>
       </article>
-      <article class="plan plan-best" data-reveal>
+      <article class="plan plan-best" data-plan data-reveal>
         <p class="plan-flag">Best value · Save 15%</p>
         <div class="plan-img plan-img-3"><img src="assets/img/bottle.webp" width="480" height="860" loading="lazy" alt="Three bottles of BushAid"><img src="assets/img/bottle.webp" width="480" height="860" loading="lazy" alt=""><img src="assets/img/bottle.webp" width="480" height="860" loading="lazy" alt=""></div>
         <h3>3 Bottles</h3>
         <p class="plan-days">180-day supply</p>
         <p class="plan-price"><s>$149.97</s> <span class="amt">$127.47</span></p>
         <p class="plan-per">$42.49 per bottle · you save $22.50</p>
-        <a href="#" class="btn btn-gold" data-shop="plan-3" data-value="127.47">Choose 3 bottles</a>
+        <a href="#" class="btn btn-gold" data-shop="plan-3" data-qty="3" data-value="127.47">Choose 3 bottles</a>
       </article>
     </div>
     <p class="subscribe-note" data-reveal><strong>Prefer auto-delivery?</strong> Choose Subscribe &amp; Save on the next page and save 15% on every bottle. Totally optional.</p>

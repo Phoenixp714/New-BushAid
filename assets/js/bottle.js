@@ -247,6 +247,32 @@ function buildBottle(labelCanvas, maxAniso) {
   );
   group.add(cap);
 
+  // Capsules for the finale: hidden inside the cap until the cap lifts off.
+  // Two-tone: cream shell with a warm gold half.
+  const capsuleGeo = new THREE.CapsuleGeometry(0.13, 0.34, 8, 20);
+  const colors = [];
+  const pos = capsuleGeo.attributes.position;
+  const cream = new THREE.Color(0xf1e9da), gold = new THREE.Color(0xc9a45c);
+  for (let i = 0; i < pos.count; i++) {
+    const c = pos.getY(i) > 0 ? cream : gold;
+    colors.push(c.r, c.g, c.b);
+  }
+  capsuleGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  const capsuleMat = new THREE.MeshPhysicalMaterial({
+    vertexColors: true, roughness: 0.3, clearcoat: 0.8, clearcoatRoughness: 0.15,
+  });
+  const capsuleEnds = [
+    [-1.35, 3.55, 0.5], [-0.75, 4.15, 0.7], [0.0, 4.45, 0.85],
+    [0.8, 4.2, 0.7], [1.4, 3.7, 0.5], [0.35, 3.85, 1.05],
+  ];
+  const capsules = capsuleEnds.map((end, i) => {
+    const m = new THREE.Mesh(capsuleGeo, capsuleMat);
+    m.visible = false;
+    m.userData = { end: new THREE.Vector3(...end), tilt: 0.6 + i * 0.9, spin: i % 2 ? 1 : -1 };
+    group.add(m);
+    return m;
+  });
+
   // Soft contact shadow
   const shadow = new THREE.Mesh(
     new THREE.PlaneGeometry(3.2, 3.2),
@@ -257,8 +283,12 @@ function buildBottle(labelCanvas, maxAniso) {
   group.add(shadow);
 
   group.position.y = -1.68; // center vertically around origin
-  return group;
+  return { group, cap, capsules };
 }
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+const smooth = (t) => t * t * (3 - 2 * t);
+const easeOutBack = (t) => { const c = 1.5; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 
 // ---------- One viewer per canvas ----------
 function createViewer(canvas, labelCanvas, mode) {
@@ -284,13 +314,14 @@ function createViewer(canvas, labelCanvas, mode) {
   fill.position.set(-3, 0, 4);
   scene.add(key, rim, rim2, fill);
 
-  const bottle = buildBottle(labelCanvas, renderer.capabilities.getMaxAnisotropy());
+  const { group: bottle, cap, capsules } = buildBottle(labelCanvas, renderer.capabilities.getMaxAnisotropy());
   const pivot = new THREE.Group();
   pivot.add(bottle);
   pivot.rotation.x = 0.06;
   scene.add(pivot);
 
   const camera = new THREE.PerspectiveCamera(22, 1, 0.1, 100);
+  let baseDist = 10;
 
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
@@ -299,11 +330,14 @@ function createViewer(canvas, labelCanvas, mode) {
     camera.aspect = w / h;
     // fit bottle (≈3.5 tall, ≈2.1 wide incl. margin) in view
     const t = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    const distH = 2.0 / t;
-    const distW = 1.3 / (t * camera.aspect);
-    camera.position.set(0, 0.15, Math.max(distH, distW));
-    camera.lookAt(0, 0, 0);
+    baseDist = Math.max(2.0 / t, 1.3 / (t * camera.aspect));
+    placeCamera(0);
     camera.updateProjectionMatrix();
+  }
+  function placeCamera(f) {
+    // During the finale, pull back and look up a little so the capsules fit.
+    camera.position.set(0, 0.15 + 0.75 * f, baseDist * (1 + 0.38 * f));
+    camera.lookAt(0, 0.6 * f, 0);
   }
 
   // Scroll progress of the element that drives this viewer
@@ -313,34 +347,97 @@ function createViewer(canvas, labelCanvas, mode) {
     const vh = window.innerHeight;
     if (mode === 'inside') {
       const total = r.height - vh;
-      return total > 0 ? THREE.MathUtils.clamp(-r.top / total, 0, 1) : 0;
+      return total > 0 ? clamp01(-r.top / total) : 0;
     }
-    return THREE.MathUtils.clamp(-r.top / Math.max(r.height, 1), 0, 1);
+    return clamp01(-r.top / Math.max(r.height, 1));
   }
+
+  // ── Drag / swipe to spin. Horizontal drags turn the bottle; vertical swipes
+  //    still scroll the page (touch-action: pan-y on the canvas).
+  const stage = canvas.closest('.bottle-stage');
+  const drag = { active: false, offset: 0, vel: 0, x: 0, t: 0, id: null };
+  canvas.addEventListener('pointerdown', (e) => {
+    if (!e.isPrimary) return;
+    drag.active = true; drag.id = e.pointerId; drag.x = e.clientX; drag.t = performance.now(); drag.vel = 0;
+    try { canvas.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+    stage?.classList.add('is-dragging', 'interacted');
+    kick();
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    if (!drag.active || e.pointerId !== drag.id) return;
+    const now = performance.now();
+    const d = (e.clientX - drag.x) * 0.012;
+    drag.offset += d;
+    drag.vel = THREE.MathUtils.clamp(d / Math.max((now - drag.t) / 1000, 0.008), -10, 10);
+    drag.x = e.clientX; drag.t = now;
+  });
+  const release = (e) => {
+    if (!drag.active || (e && e.pointerId !== drag.id)) return;
+    drag.active = false;
+    if (performance.now() - drag.t > 80) drag.vel = 0; // finger held still before lifting
+    stage?.classList.remove('is-dragging');
+  };
+  canvas.addEventListener('pointerup', release);
+  canvas.addEventListener('pointercancel', release);
+  canvas.addEventListener('lostpointercapture', release);
 
   let visible = false, raf = 0, last = performance.now(), idle = 0;
   let current = null;
   const base = mode === 'hero' ? -0.35 : 0;
+  const TAU = Math.PI * 2;
+
+  function updateDrag(dt) {
+    if (drag.active) return;
+    if (Math.abs(drag.vel) > 0.05) {
+      drag.offset += drag.vel * dt;            // coast briefly after a flick
+      drag.vel *= Math.exp(-dt * 4.5);
+    } else if (mode === 'inside') {
+      // settle back in step with the ingredient walkthrough (nearest full turn)
+      const home = Math.round(drag.offset / TAU) * TAU;
+      drag.offset += (home - drag.offset) * (1 - Math.exp(-dt * 3));
+    }
+  }
+
+  function finale(f, now) {
+    cap.position.set(f * 0.45, f * 1.05, f * 0.1);
+    cap.rotation.z = -f * 0.5;
+    capsules.forEach((m, i) => {
+      const fi = clamp01((f - i * 0.07) / 0.58);
+      m.visible = fi > 0.001;
+      if (!m.visible) return;
+      const e = easeOutBack(fi);
+      const { end, tilt, spin } = m.userData;
+      m.position.set(end.x * e, 2.95 + (end.y - 2.95) * e + Math.sin(now / 900 + i) * 0.04 * fi, end.z * e);
+      m.rotation.set(tilt + fi * 1.2 * spin, 0, tilt * 0.7 + fi * 2.4 * spin + Math.sin(now / 1300 + i) * 0.08);
+      m.scale.setScalar(0.4 + 0.6 * clamp01(fi * 2));
+    });
+    placeCamera(f);
+  }
 
   function frame(now) {
     raf = 0;
     if (!visible) return;
     const dt = Math.min((now - last) / 1000, 0.05);
     last = now;
+    updateDrag(dt);
     let target;
     if (reduceMotion) {
-      target = base;
+      target = base + drag.offset;
     } else if (mode === 'hero') {
       idle += dt * 0.25;
-      target = base + idle + progress() * Math.PI * 1.25;
+      target = base + idle + progress() * Math.PI * 1.25 + drag.offset;
       pivot.position.y = Math.sin(now / 1400) * 0.05; // gentle float
     } else {
-      target = progress() * Math.PI * 2;
+      // six ingredients over one full turn, then the cap comes off for the finale
+      const p = progress();
+      target = clamp01(p / (6 / 7)) * TAU + drag.offset;
+      finale(smooth(clamp01((p - 0.86) / 0.12)), now);
     }
-    current = current === null ? target : current + (target - current) * (1 - Math.exp(-dt * 8));
+    current = current === null ? target : current + (target - current) * (1 - Math.exp(-dt * (drag.active ? 16 : 8)));
     pivot.rotation.y = current;
     renderer.render(scene, camera);
-    if (!reduceMotion || current !== target) raf = requestAnimationFrame(frame);
+    const settling = Math.abs(current - target) > 0.0005 || drag.active || Math.abs(drag.vel) > 0.05;
+    if (!reduceMotion || settling) raf = requestAnimationFrame(frame);
   }
   function kick() { if (!raf && visible) { last = performance.now(); raf = requestAnimationFrame(frame); } }
 
@@ -349,7 +446,7 @@ function createViewer(canvas, labelCanvas, mode) {
 
   resize();
   renderer.render(scene, camera);
-  canvas.closest('.bottle-stage')?.classList.add('is-3d');
+  stage?.classList.add('is-3d');
 }
 
 function webglOK() {
